@@ -18,8 +18,10 @@ Make sure to configure `URL` to the publicly available URL of your Cloud Foundry
 FAA runs as an app on Cloud Foundry. To successfully push, you must provide the following:
 
 - `SLACK_VERIFICATION_TOKEN`: *string*, Verification token provided by your slack integration, see "Token" in the slack configuration above
+- `SLACK_CHANNEL_ID`: *string*, Channel ID from which commands will be accepted
 - `POSTFACTO_RETRO_ID`: *integer*, The postfacto ID of your regular retro
 - `POSTFACTO_TECH_RETRO_ID`: *integer*, The postfacto ID of your tech retro
+- `POSTFACTO_RETRO_PASSWORD`: *string*, Password for you postfacto account
 
 Other configuration necessary to run on Cloud Foundry can be found in our [production manifest.yml](manifest.yml)
 
