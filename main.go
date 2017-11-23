@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/concourse/faa/postfacto"
-	"github.com/concourse/faa/slackcommand"
+	"github.com/bstick12/faa/postfacto"
+	"github.com/bstick12/faa/slackcommand"
 )
 
 func main() {
@@ -26,6 +26,11 @@ func main() {
 	vToken, ok := os.LookupEnv("SLACK_VERIFICATION_TOKEN")
 	if !ok {
 		panic(errors.New("Must provide SLACK_VERIFICATION_TOKEN"))
+	}
+
+	channelID, ok := os.LookupEnv("SLACK_CHANNEL_ID")
+	if !ok {
+		panic(errors.New("Must provide SLACK_CHANNEL_ID"))
 	}
 
 	retroID, ok := os.LookupEnv("POSTFACTO_RETRO_ID")
@@ -64,6 +69,7 @@ func main() {
 		Delegate: &PostfactoSlackDelegate{
 			RetroClient:     c,
 			TechRetroClient: t,
+			SlackChannelID:  channelID,
 		},
 	}
 
@@ -75,6 +81,7 @@ func main() {
 type PostfactoSlackDelegate struct {
 	RetroClient     *postfacto.RetroClient
 	TechRetroClient *postfacto.RetroClient
+	SlackChannelID  string
 }
 
 type Command string
@@ -92,8 +99,8 @@ func (d *PostfactoSlackDelegate) Handle(r slackcommand.Command) (string, error) 
 		return "", fmt.Errorf("must be in the form of '%s [happy/meh/sad/tech] [message]'", r.Command)
 	}
 
-	if r.ChannelID != "<SLACK CHANNEL ID>" {
-		return "", fmt.Errorf("Retro items must be logged from the CF Toronto pivots channel.")
+	if r.ChannelID != d.SlackChannelID {
+		return "", fmt.Errorf("Retro items must be logged from from channel with ID [%s] this came from [%s]", d.SlackChannelID, r.ChannelID)
 	}
 
 	c := parts[0]
