@@ -49,12 +49,12 @@ func main() {
 	}
 
 	c := &postfacto.RetroClient{
-		Host: "https://felicity-api.cfapps.io",
+		Host: "http://retros-iad-api.cfapps.io/",
 		ID:   retroID,
 	}
 
 	t := &postfacto.RetroClient{
-		Host: "https://felicity-api.cfapps.io",
+		Host: "http://retros-iad-api.cfapps.io/",
 		ID:   techRetroID,
 	}
 
